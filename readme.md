@@ -67,7 +67,7 @@ The following endpoints are available
 
 | URL | Description | Authentication |
 | ------------ |  ------------------------ | ------------------------ |
-| GET /books |  get a list of public posts  | required  |
+| GET /books |  get a list of public books  | required  |
 | POST /users/signin |  allows the user to login and obtain a JWT  | not required |
 | POST /users/create | allows the user to signup to the application  | not required |
 
