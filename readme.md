@@ -1,54 +1,86 @@
-# Express Coding Challenge
-The premise of this challenge is to see the approach you take to:
-- Use an ORM to interact with a simple database model
-- Create a basic routing mechanism for HTTP requests
-- Authenticate a user’s access to a route
-- Respond to a request in a consistent and logical manner
-- Test your work with both unit tests and integration tests.
+# Book example
 
-Please clone this repository and send through your completed coding challenge using whatever you feel fit. We'll take a look and then have a chat about the decisions you took and challenges you encountered. Thanks for taking the time.
+## Description
 
-## Challenge
-1. Use [Sequelize](http://docs.sequelizejs.com/manual/installation/getting-started) or [Mongoose](https://mongoosejs.com/) to define:
+This is an example of an API for a book platform implemented with NodeJS and MongoDB.
 
-   1.1. A **`User`** model which should have basic identifying information:
-      - Name
-      - Email address
-      - Role (Acceptable entries: ‘student’, ‘academic’, ‘administrator’)
-      - Password.
+Main functionalities:
 
-   1.2. An **`Institution`** model which stores information about a school:
-      - Name
-      - URL
-      - Email domain.
-      
-   1.3. A **`Book`** model which stores information about books:
-      - ISBN
-      - Title
-      - Author.
-      
-   1.4. Relationships between **`Users`** and **`Institutions`**, and **`Books`** and **`Institutions`** (Consider #4.3 in the relationships you create).
-2. Use [Express](https://expressjs.com/) to respond to requests.
-3. Create a test suite which includes code coverage, to unit and integration test the routes you’ve created.
-4. Create routes:
+- Register a new user
+- Login with a registered user
+- Get a list of books
 
-    4.1 `POST /users/signin` Use the passport library to authenticate a user and respond with a successful message that uses the [JSend](https://labs.omniti.com/labs/jsend) framework
-    
-    4.2 `POST /users/create` Creates a user and based on the user’s email domain links them to an institution. Denies creation of a user if their domain does not exist.
-    
-    4.3 `GET /books` Once authenticated, responds with a JSON object containing a list of Books that the user has access to via their Institution.
-5. (Optional) Provide a [Postman](https://www.getpostman.com/) collection which performs some basically functionality on the routes you've created.
+## Requirements
 
-## Things to keep in mind
-- Security
-- Scalability
-- Consistency
-- Testing.
+The following packages are required by this package
 
-## Running this application
-You can run the application by typing:
-`npm install` followed by `npm start` 
+| Package Name | Description |
+| ------------ |  ------------------------ |
+| MochaJS |  6.1.4+ |
+| NodeJS |  10.15.3+ |
+| Docker | https://www.docker.com/ | latest |
+| Docker-Compose | https://docs.docker.com/compose/ | latest |
 
-## The structure of this repository
-The structure of this repository should be relatively self-explanatory. 
-Use the appropriate directory for your code. A basic example has been provided for the index route.
+
+## <a name="setup"></a> Setup
+
+1. Clone this repository
+2. Run `$ cd blog-example-nodejs` (if you used the default project name)
+3. Run `$ cd src`
+4. Copy the .env.example file to a new file called .env with `$ cp .env.example .env`
+5. Configure envinronment variables in `.env` (see [env](#env))
+6. Go back to the root directory (`$ cd ../`) and run `docker-compose up` to start the development server
+
+
+## Tests
+
+Go to the `application` directory using `$ cd src`
+
+Configure envinronment variables in `.env.test` (see [env](#env))
+
+Then you can run tests by simply running:
+
+    npm run integration-tests
+
+
+This will run integrations tests (you **must** have the server up and running)
+
+
+## <a name="env"></a> Env variables
+
+| Environment variable name | Description |
+| ------------ | ------------------------ |
+| APP_NAME | Name of our application |
+| APP_ENV |  Environment name to use |
+| APP_KEY |  base64 key generated |
+| APP_URL | URL of the application (optional)
+| APP_DEBUG | enable debug mode  |
+| DB_HOST | database host  |
+| DB_DATABASE | name of the database to use  |
+| DB_USERNAME | username of the db  |
+| DB_PASSWORD | password for the user  |
+
+
+## Endpoints available
+
+The following endpoints are available
+
+| URL | Description | Authentication |
+| ------------ |  ------------------------ | ------------------------ |
+| GET /books |  get a list of public posts  | required  |
+| POST /users/signin |  allows the user to login and obtain a JWT  | not required |
+| POST /users/create | allows the user to signup to the application  | not required |
+
+## Notes - Improvements
+
+If this was intended to be deployed to production we should:
+- Improve the logging solution to keep all the log information centralized and easy to query if needed.
+- Improve postman collection to help the frontend and QA to test and use this API.
+- Use kubernetes and terraform to deploy.
+- Add unit tests for every class and function.
+- Improve request validation, separate the entities from the mongoose library. Add a DAO layer to make it easier to switch the database engine.
+- Use Redis or another key/value database to manage JWT validation and allow us to invalidate tokens from the server-side.
+
+## License
+
+The Book Example NodeJS is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
